@@ -16,8 +16,7 @@ router.beforeEach((to, from, next) => {
   3 有登录状态 跳登录页面
   4 有登录状态 跳非登录页面
   */
-    next()
-  
+  next()
 })
 
 router.afterEach(to => {
