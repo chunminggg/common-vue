@@ -10,7 +10,13 @@ export default [
   {
     path: '/',
     name: 'home',
-    component:() => import('@/views/index.vue')
+    component:() => import('@/views/index.vue'),
+    children: [{
+      path: 'table',
+      name: 'basicTable',
+      component: () => import ('@/views/Basic/table')
+    }, 
+  ]
   },
   {
     path: '/error_401',

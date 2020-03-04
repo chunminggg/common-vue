@@ -19,7 +19,7 @@
       </Header>
       <Layout>
         <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu  theme="light" width="auto" >
+          <Menu  @on-select="clickSideMenu" theme="light" width="auto" :active-name="sideActiveName" :open-names="sideOpenNames" >
             <Submenu :name="item.name" v-for="item in sideMenus" :key="item.name">
               <template slot="title">
                   {{item.title}}
@@ -30,32 +30,62 @@
         </Sider>
         <Layout :style="{padding: '0 24px 24px'}">
           <Breadcrumb :style="{margin: '24px 0'}">
-            <BreadcrumbItem>Home</BreadcrumbItem>
-            <BreadcrumbItem>Components</BreadcrumbItem>
-            <BreadcrumbItem>Layout</BreadcrumbItem>
+            <BreadcrumbItem>首页</BreadcrumbItem>
           </Breadcrumb>
-          <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">Content</Content>
+          <Content :style="{padding: '24px', minHeight: '80vh', background: '#fff'}">
+              <router-view  />
+          </Content>
         </Layout>
       </Layout>
     </Layout>
   </div>
 </template>
 <script>
+import {rolePermissionAction} from '@/libs/access'
+import {mockPermissionData } from '@/libs/mock'
 export default {
+    
     mounted(){
         this.getMenuData()
+        this.checkRouteName()
     },
     data(){
         return {
             sideMenus:[],
             navMenus:[],
+            sideActiveName:'',
+            sideOpenNames:[],
         }
     },
     methods:{
         getMenuData(){
+            this.getPermissionAction()
             this.sideMenus = this.$store.state['userPermission']['sideMenus']
             this.navMenus = this.$store.state['userPermission']['navMenus']
-        }
+        },
+        // 重刷页面的时候 再次获取权限
+        getPermissionAction(){
+            rolePermissionAction(mockPermissionData,this)
+        },
+        checkRouteName(){
+          let activeName = this.$route.name
+          this.sideActiveName = activeName
+          this.$nextTick(()=>{
+            this.sideOpenNames = ['name1']
+          })
+          // let filterSideNames = this.sideMenus.filter(item =>{
+          //   let findChildName = item.childMenus.find(obj => obj.name == activeName)
+          //   if (findChildName) {
+              
+          //   }
+          // })
+        },
+        // 点击左侧菜单
+        clickSideMenu(name){
+          this.$router.push({
+            name:name
+          })
+        },
     },
     
 };
@@ -67,6 +97,9 @@ export default {
   position: relative;
   border-radius: 4px;
   overflow: hidden;
+}
+.full-height{
+    height: 100vh;
 }
 .demo-nav-header {
   display: flex;

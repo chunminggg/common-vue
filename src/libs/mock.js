@@ -1,13 +1,44 @@
+export const mockTableColumns = [
+    {
+        title:'商家名称',
+        key:'title'
+    },
+    {
+        title:'拥有人',
+        key:'owner'
+    },
+    {
+        title:'创建日期',
+        key:'createDate'
+    },
+]
+export const mockTableData = [
+    {
+        title:'商家A',
+        owner:'A',
+        createDate:'2019-02-13'
+    },
+    {
+        title:'商家A434',
+        owner:'A32',
+        createDate:'2019-02-23'
+    },
+    {
+        title:'商家A22',
+        owner:'A33',
+        createDate:'2019-03-03'
+    },
+]
 // 模拟权限数据
 export const mockPermissionData = {
     sideMenus:[
         {
-            title:'菜单1',
+            title:'基础组件',
             name:'name1',
             childMenus:[
                 {
-                    title:'1子菜单1',
-                    name:'child1'
+                    title:'表格',
+                    name:'basicTable'
                 },
                  {
                     title:'1子菜单2',
