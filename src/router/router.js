@@ -9,9 +9,13 @@ export default [
   },
   {
     path: '/',
-    name: 'home',
     component:() => import('@/views/index.vue'),
     children: [
+      {
+        path:'',
+        name: 'home',
+        component:()=> import('@/views/Basic/chart')
+      },
       {
       path: 'table',
       name: 'basicTable',

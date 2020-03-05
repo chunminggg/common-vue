@@ -11,9 +11,13 @@ export default {
     mounted(){
         this.getMenuData()
     },
+    computed:{
+        activeName(){
+            return this.$route.name
+        }
+    },
     data(){
         return {
-            activeName:'home',
             menus:[
                 
             ]
