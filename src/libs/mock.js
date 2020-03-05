@@ -41,8 +41,8 @@ export const mockPermissionData = {
                     name:'basicTable'
                 },
                  {
-                    title:'1子菜单2',
-                    name:'child2'
+                    title:'上传',
+                    name:'basicUpload'
                 }
             ]
         },

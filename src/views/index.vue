@@ -29,9 +29,7 @@
           </Menu>
         </Sider>
         <Layout :style="{padding: '0 24px 24px'}">
-          <Breadcrumb :style="{margin: '24px 0'}">
-            <BreadcrumbItem>首页</BreadcrumbItem>
-          </Breadcrumb>
+          <route-tab ref="routeTab"></route-tab>
           <Content :style="{padding: '24px', minHeight: '80vh', background: '#fff'}">
               <router-view  />
           </Content>
@@ -43,11 +41,16 @@
 <script>
 import {rolePermissionAction} from '@/libs/access'
 import {mockPermissionData } from '@/libs/mock'
+import routeTab from '@/components/basic/baseRouteTab'
+import bus from '@/config/bus'
 export default {
-    
+    components:{
+      routeTab
+    },
     mounted(){
         this.getMenuData()
         this.checkRouteName()
+        this.observeBusEvent()
     },
     data(){
         return {
@@ -58,6 +61,13 @@ export default {
         }
     },
     methods:{
+      observeBusEvent(){
+        bus.$on('goToLastRouteView',(name)=>{
+          this.$router.push({
+            name:name
+          })
+        })
+      },
         getMenuData(){
             this.getPermissionAction()
             this.sideMenus = this.$store.state['userPermission']['sideMenus']
@@ -70,21 +80,28 @@ export default {
         checkRouteName(){
           let activeName = this.$route.name
           this.sideActiveName = activeName
-          this.$nextTick(()=>{
-            this.sideOpenNames = ['name1']
-          })
-          // let filterSideNames = this.sideMenus.filter(item =>{
-          //   let findChildName = item.childMenus.find(obj => obj.name == activeName)
-          //   if (findChildName) {
-              
-          //   }
-          // })
+          this.clickSideMenu(activeName,false)
         },
         // 点击左侧菜单
-        clickSideMenu(name){
-          this.$router.push({
+        clickSideMenu(name,isPush = true){
+          let title = '新开页面'
+          this.sideMenus.map(item => {
+            item.childMenus.map(obj => {
+              if (obj.name == name) {
+                title = obj.title
+              }
+            })
+          })
+          this.$store.dispatch('navMenu/addNavBreadMenu',{
+            name:name,
+            title:title
+          })
+         if (isPush) {
+            this.$router.push({
             name:name
           })
+         }
+          this.$refs.routeTab.getMenuData()
         },
     },
     

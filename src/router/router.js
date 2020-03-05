@@ -11,11 +11,17 @@ export default [
     path: '/',
     name: 'home',
     component:() => import('@/views/index.vue'),
-    children: [{
+    children: [
+      {
       path: 'table',
       name: 'basicTable',
       component: () => import ('@/views/Basic/table')
     }, 
+    {
+      path: 'upload',
+      name: 'basicUpload',
+      component: () => import ('@/views/Basic/upload')
+    }
   ]
   },
   {
